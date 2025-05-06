@@ -1,10 +1,7 @@
 package com.spring.rabbitmq.config;
 
 import jakarta.annotation.PostConstruct;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -43,6 +40,21 @@ public class FanoutExchangeConfig {
     }
 
     @Bean
+    Binding createFanoutBinding1 () {
+        return BindingBuilder.bind(createFanoutQueue1()).to(createFanoutExchange());
+    }
+
+    @Bean
+    Binding createFanoutBinding2 () {
+        return BindingBuilder.bind(createFanoutQueue2()).to(createFanoutExchange());
+    }
+
+    @Bean
+    Binding createFanoutBinding3 () {
+        return BindingBuilder.bind(createFanoutQueue3()).to(createFanoutExchange());
+    }
+
+    @Bean
     FanoutExchange createFanoutExchange() {
         return new FanoutExchange(fanoutExchange, true, false);
     }
@@ -62,6 +74,10 @@ public class FanoutExchangeConfig {
         amqpAdmin.declareQueue(createFanoutQueue3());
 
         amqpAdmin.declareExchange(createFanoutExchange());
+
+        amqpAdmin.declareBinding(createFanoutBinding1());
+        amqpAdmin.declareBinding(createFanoutBinding2());
+        amqpAdmin.declareBinding(createFanoutBinding3());
     }
 
 }
