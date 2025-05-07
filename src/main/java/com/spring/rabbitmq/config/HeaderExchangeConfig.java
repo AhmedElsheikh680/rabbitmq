@@ -1,6 +1,10 @@
 package com.spring.rabbitmq.config;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +57,28 @@ public class HeaderExchangeConfig {
     @Bean
     HeadersExchange createHeaderExchange() {
         return new HeadersExchange(headerExchange, true, false);
+    }
+
+    @Bean
+    AmqpTemplate headerQueue(ConnectionFactory connectionFactory, MessageConverter messageConverter) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(messageConverter);
+        rabbitTemplate.setExchange(headerExchange);
+
+        return rabbitTemplate;
+
+    }
+
+    @PostConstruct
+    public void init() {
+        amqpAdmin.declareQueue(createHeaderQueue1());
+        amqpAdmin.declareQueue(createHeaderQueue2());
+        amqpAdmin.declareQueue(createHeaderQueue3());
+        amqpAdmin.declareExchange(createHeaderExchange());
+        amqpAdmin.declareBinding(createHeaderBinding1());
+        amqpAdmin.declareBinding(createHeaderBinding2());
+        amqpAdmin.declareBinding(createHeaderBinding3());
+
     }
 
 }
