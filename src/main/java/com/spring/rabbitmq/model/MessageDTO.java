@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Message {
+public class MessageDTO {
 
     private String status;
     private String dateTime;

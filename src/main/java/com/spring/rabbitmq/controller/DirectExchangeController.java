@@ -1,6 +1,6 @@
     package com.spring.rabbitmq.controller;
 
-    import com.spring.rabbitmq.model.Message;
+    import com.spring.rabbitmq.model.MessageDTO;
     import org.springframework.amqp.core.AmqpTemplate;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,6 @@
 
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
-    import java.util.Date;
 
     @RestController
     @RequestMapping("/direct-exchange")
@@ -41,7 +40,7 @@
                 default:
                     throw new Exception("Invalid Number!!!!!!!!");
             }
-            Message message = Message.builder()
+            MessageDTO message = MessageDTO.builder()
                     .status("directMessage")
                     .dateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .build();

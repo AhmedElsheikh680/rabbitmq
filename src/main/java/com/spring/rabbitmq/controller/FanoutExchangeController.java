@@ -1,6 +1,6 @@
 package com.spring.rabbitmq.controller;
 
-import com.spring.rabbitmq.model.Message;
+import com.spring.rabbitmq.model.MessageDTO;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class FanoutExchangeController {
 
     @GetMapping("/message")
     public ResponseEntity<?> sendMessage() {
-         fanoutQueue.convertAndSend(Message.builder()
+         fanoutQueue.convertAndSend(MessageDTO.builder()
                          .status("fanoutMessage")
                          .dateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                  .build());

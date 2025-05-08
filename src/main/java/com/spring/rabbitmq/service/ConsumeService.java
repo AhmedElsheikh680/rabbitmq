@@ -1,6 +1,6 @@
 package com.spring.rabbitmq.service;
 
-import com.spring.rabbitmq.model.Message;
+import com.spring.rabbitmq.model.MessageDTO;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -25,10 +25,10 @@ public class ConsumeService {
        return (int) properties.get(RabbitAdmin.QUEUE_MESSAGE_COUNT);
     }
 
-    public List<Message> receiveMessage(String queueName) {
+    public List<MessageDTO> receiveMessage(String queueName) {
         int count = getCountMessage(queueName);
         return IntStream.range(0, count)
-                .mapToObj(value -> (Message)rabbitTemplate.receiveAndConvert(queueName))
+                .mapToObj(value -> (MessageDTO)rabbitTemplate.receiveAndConvert(queueName))
                 .collect(Collectors.toList());
     }
 }

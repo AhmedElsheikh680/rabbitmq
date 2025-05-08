@@ -1,7 +1,7 @@
 package com.spring.rabbitmq.controller;
 
 
-import com.spring.rabbitmq.model.Message;
+import com.spring.rabbitmq.model.MessageDTO;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class TopicExchangeController {
 
     @GetMapping("/message/{pattern}")
     public ResponseEntity<?> sendMessage(@PathVariable String pattern) {
-        topicTemplate.convertAndSend(pattern, Message.builder()
+        topicTemplate.convertAndSend(pattern, MessageDTO.builder()
                         .status("topicExchange")
                         .dateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .build());

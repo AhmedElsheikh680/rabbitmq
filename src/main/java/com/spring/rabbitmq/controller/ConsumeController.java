@@ -1,6 +1,6 @@
 package com.spring.rabbitmq.controller;
 
-import com.spring.rabbitmq.model.Message;
+import com.spring.rabbitmq.model.MessageDTO;
 import com.spring.rabbitmq.service.ConsumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class ConsumeController {
     private ConsumeService consumeService;
 
     @GetMapping("/message/{queueName}")
-    public ResponseEntity<List<Message>> consumeMessage(@PathVariable String queueName) {
+    public ResponseEntity<List<MessageDTO>> consumeMessage(@PathVariable String queueName) {
         return ResponseEntity.ok(consumeService.receiveMessage(queueName));
     }
 

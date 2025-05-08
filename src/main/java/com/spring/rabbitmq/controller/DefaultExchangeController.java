@@ -1,7 +1,7 @@
 package com.spring.rabbitmq.controller;
 
 
-import com.spring.rabbitmq.model.Message;
+import com.spring.rabbitmq.model.MessageDTO;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class DefaultExchangeController {
     @GetMapping("/message")
     public void sendMessage() {
         amqpTemplate.convertAndSend(
-                Message.builder()
+                MessageDTO.builder()
                         .status("default")
                         .dateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                         .build());
