@@ -41,7 +41,7 @@ public class RabbitMQConfig {
 
     public MessageConverter messageConverter () {
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
-        return new Jackson2JsonMessageConverter();
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
 
     @Bean
@@ -53,6 +53,7 @@ public class RabbitMQConfig {
         factory.setConcurrentConsumers(10);
         factory.setPrefetchCount(5);
         factory.setAutoStartup(true);
+        factory.setDefaultRequeueRejected(false);
 
         return factory;
     }

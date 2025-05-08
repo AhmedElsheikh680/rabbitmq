@@ -21,18 +21,25 @@ public class DirectExchangeConfig {
     private String queue2;
     @Value("${rabbit.direct.queue3}")
     private String queue3;
+    @Value("${rabbit.direct.deadLetter.queue4}")
+    private String deadLetterQueue4;
     @Value("${rabbit.direct.binding1}")
     private String binding1;
     @Value("${rabbit.direct.binding2}")
     private String binding2;
     @Value("${rabbit.direct.binding3}")
     private String binding3;
-    @Value("${rabbint.direct.exchange}")
+    @Value("${rabbit.direct.exchange}")
     private String directExchange;
 
     @Bean
     Queue createDirectQueue1() {
-        return new Queue(queue1, true, false, false);
+
+//        return new Queue(queue1, true, false, false);
+        return QueueBuilder.durable(queue1)
+                .deadLetterExchange("") //default
+                .deadLetterRoutingKey(deadLetterQueue4)
+                .build();
     }
 
     @Bean
@@ -43,6 +50,11 @@ public class DirectExchangeConfig {
     @Bean
     Queue createDirectQueue3() {
         return new Queue(queue3, true, false, false);
+    }
+
+    @Bean
+    Queue createDeadLetterQueue4() {
+        return new Queue(deadLetterQueue4, true, false, false);
     }
 
     @Bean
@@ -80,6 +92,8 @@ public class DirectExchangeConfig {
         amqpAdmin.declareQueue(createDirectQueue1());
         amqpAdmin.declareQueue(createDirectQueue2());
         amqpAdmin.declareQueue(createDirectQueue3());
+
+        amqpAdmin.declareQueue(createDeadLetterQueue4());
 
         amqpAdmin.declareExchange(createDirectExchange());
 
