@@ -1,6 +1,7 @@
 package com.spring.rabbitmq.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -41,6 +42,19 @@ public class RabbitMQConfig {
     public MessageConverter messageConverter () {
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
         return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory());
+        factory.setMessageConverter(messageConverter());
+        factory.setMaxConcurrentConsumers(20);
+        factory.setConcurrentConsumers(10);
+        factory.setPrefetchCount(5);
+        factory.setAutoStartup(true);
+
+        return factory;
     }
 
 }

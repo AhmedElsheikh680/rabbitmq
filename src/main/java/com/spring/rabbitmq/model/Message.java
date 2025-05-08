@@ -14,4 +14,12 @@ public class Message {
 
     private String status;
     private String dateTime;
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "status='" + status + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                '}';
+    }
 }
