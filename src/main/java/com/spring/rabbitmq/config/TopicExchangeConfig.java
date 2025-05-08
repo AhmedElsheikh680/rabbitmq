@@ -22,6 +22,8 @@ public class TopicExchangeConfig {
     private String queue2;
     @Value("${rabbit.topic.queue3}")
     private String queue3;
+    @Value("${rabbit.direct.deadLetter.queue4}")
+    private String deadLetterQueue4;
     @Value("${rabbit.topic.pattern1}")
     private String pattern1;
     @Value("${rabbit.topic.pattern2}")
@@ -45,6 +47,8 @@ public class TopicExchangeConfig {
     Queue createTopicQueue3() {
         return new Queue(queue3, true, false, false);
     }
+
+
 
     @Bean
     TopicExchange createTopicExchange() {
